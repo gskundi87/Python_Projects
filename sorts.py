@@ -13,7 +13,15 @@ def bubble_sort(x):
         for j in range(0, len(x)-i-1):
             if x[j] > x[j+1]:
                 x[j],x[j+1] = x[j+1],x[j]
-    return x
+
+def bubble_sort_count_inv(x):
+    count = 0
+    for i in range(len(x)-1):
+        for j in range(0, len(x)-i-1):
+            if x[j] > x[j+1]:
+                count = count + 1
+                x[j],x[j+1] = x[j+1],x[j]
+    return count
 
 def selection_sort(x):
     for i in range(len(x)-1):
@@ -22,18 +30,32 @@ def selection_sort(x):
             if x[index] > x[j]:
                 index = j
         x[i],x[index] = x[index],x[i]       
-    return x
 
 def insertion_sort(x):
-    for i in range(2,len(x)-1):
+    for i in range(1,len(x)):
         key = x[i]
         index = i - 1
         
         while index >= 0 and x[index] > key:
             x[index+1] = x[index]
+            index = index - 1
+            
+        x[index+1] = key
+        
+def insertion_sort_count_inv(x):
+    count = 0
+    for i in range(1,len(x)):
+        key = x[i]
+        index = i - 1
+        
+        while index >= 0 and x[index] > key:
+            count = count + 1
+            x[index+1] = x[index]
             index = index- 1
             
         x[index+1] = key
+        
+    return count
 
 class heap(object):
     def __init__(self, list):
@@ -125,4 +147,23 @@ def random_quicksort(A,p,r):
     if p < r:
         q = random_partition(A,p,r)
         random_quicksort(A,p,q-1)
-        random_quicksort(A,q+1,r) 
+        random_quicksort(A,q+1,r)
+        
+def merge_and_count(A):
+    count = 0
+    i = 0
+    j = len(A)//2
+    temp = [0] * len(A)
+    k = 0
+    
+    while i < len(A)//2 and j < len(A):
+        if A[i] < A[j]:
+            temp[k] = A[i]
+            k += 1
+            i += 1
+        else:
+            count += ((len(A)//2) - i + 1)
+            j += 1
+            
+    
+                
