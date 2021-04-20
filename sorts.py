@@ -5,6 +5,7 @@ Created on Wed Mar 31 09:54:58 2021
 @author: p4ul
 """
 import numpy as np
+import math
 
 rng = np.random.default_rng()
 
@@ -149,6 +150,17 @@ def random_quicksort(A,p,r):
         random_quicksort(A,p,q-1)
         random_quicksort(A,q+1,r)
         
+def det_partition(A,p,r):
+    x = find_median(A)
+    A[x],A[r] = A[r],A[x]
+    return partition(A,p,r)
+
+def det_quicksort(A,p,r):
+    if p < r:
+        q = det_partition(A,p,r)
+        det_quicksort(A,p,q-1)
+        det_quicksort(A,q+1,r)
+        
 def merge_and_count(A):
     count = 0
     i = 0
@@ -195,6 +207,23 @@ def count_inv(A):
         cM = merge_and_count(A)
         
         return cL + cR + cM
-            
-    
+
+
+def find_median(A):
+    if len(A) >=3 and len(A) <= 5:
+        bubble_sort(A)
+        return A[2]
+    elif len(A) <= 2:
+        return A[0]
+    else:
+        g = math.ceil(len(A)//5)
+        temp = [0] * g
+        for x in range(0,g):
+            C = A[5*x:5*(x+1)]
+            temp[x] = find_median(C)
+        return find_median(temp)
                 
+A = rng.integers(-25,25,23)
+B = A.copy()
+print(find_median(B))
+bubble_sort(B)

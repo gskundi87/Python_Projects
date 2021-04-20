@@ -9,30 +9,44 @@ import time
 import numpy as np
 from sorts import *
 
-def main():
-    rng = np.random.default_rng()
-    i1 = 11
-    i2 = 12
+rng = np.random.default_rng()
+i1 = 11
+i2 = 12
+
+for x in range(i1,i2):
+    a = rng.integers(-2**x, 2**x, 2**x)
+    b = a.copy()
+    c = a.copy()
     
-    for x in range(i1,i2):
-        a = rng.integers(-2**x, 2**x, 2**x)
-        b = a.copy()
-        c = a.copy()
+    time1 = time.perf_counter()
+    quicksort(a,0,len(a)-1)
+    time2 = time.perf_counter()  
+    print(f"Quick Sorted in {time2 - time1:0.4f} seconds")
+    
+    time1 = time.perf_counter()
+    random_quicksort(b,0,len(b)-1)
+    time2 = time.perf_counter()  
+    print(f"Random Quick Sorted in {time2 - time1:0.4f} seconds")
+    
+    time1 = time.perf_counter()
+    det_quicksort(c,0,len(c)-1)
+    time2 = time.perf_counter()  
+    print(f"Det Quick Sorted in {time2 - time1:0.4f} seconds")
         
-        time1 = time.perf_counter()
-        print(f"{bubble_sort_count_inv(a)} inversions")
-        time2 = time.perf_counter()  
-        print(f"Bubble Sorted in {time2 - time1:0.4f} seconds")
+        # time1 = time.perf_counter()
+        # print(f"{bubble_sort_count_inv(a)} inversions")
+        # time2 = time.perf_counter()  
+        # print(f"Bubble Sorted in {time2 - time1:0.4f} seconds")
         
-        time1 = time.perf_counter()
-        print(f"{insertion_sort_count_inv(b)} inversions")
-        time2 = time.perf_counter()  
-        print(f"Insertion Sorted in {time2 - time1:0.4f} seconds")
+        # time1 = time.perf_counter()
+        # print(f"{insertion_sort_count_inv(b)} inversions")
+        # time2 = time.perf_counter()  
+        # print(f"Insertion Sorted in {time2 - time1:0.4f} seconds")
         
-        time1 = time.perf_counter()
-        print(f"{count_inv(c)} inversions")
-        time2 = time.perf_counter()  
-        print(f"Count Inversions in {time2 - time1:0.4f} seconds")
+        # time1 = time.perf_counter()
+        # print(f"{count_inv(c)} inversions")
+        # time2 = time.perf_counter()  
+        # print(f"Count Inversions in {time2 - time1:0.4f} seconds")
         
     # for x in range(i1,i2):
     #     a = rng.integers(-2**x, 2**x, 2**x)
@@ -48,20 +62,4 @@ def main():
     #     b.heapsort()
     #     time2 = time.perf_counter()  
     #     print(f"Heap Sorted in {time2 - time1:0.4f} seconds")
-        
-    # for x in range(i1,i2):
-    #     a = rng.integers(-2**x, 2**x, 2**x)
-    #     time1 = time.perf_counter()
-    #     quicksort(a,0,len(a)-1)
-    #     time2 = time.perf_counter()  
-    #     print(f"Quick Sorted in {time2 - time1:0.4f} seconds")
-        
-    # for x in range(i1,i2):
-    #     a = rng.integers(-2**x, 2**x, 2**x)
-    #     time1 = time.perf_counter()
-    #     random_quicksort(a,0,len(a)-1)
-    #     time2 = time.perf_counter()  
-    #     print(f"Random Quick Sorted in {time2 - time1:0.4f} seconds")
     
-if __name__ == "__main__":
-    main()
