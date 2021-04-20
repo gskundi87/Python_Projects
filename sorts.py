@@ -162,8 +162,39 @@ def merge_and_count(A):
             k += 1
             i += 1
         else:
-            count += ((len(A)//2) - i + 1)
+            temp[k] = A[j]
+            k += 1
+            count += ((len(A)//2) - i)
             j += 1
+            
+    while i < len(A)//2:
+        temp[k] = A[i]
+        k += 1
+        i += 1
+    
+    while j < len(A):
+        temp[k] = A[j]
+        k += 1
+        j += 1
+    
+    for i in range(0,len(A)):
+        A[i] = temp[i]
+    
+    return count
+        
+def count_inv(A):
+    if len(A) < 10:
+        return insertion_sort_count_inv(A)
+    
+    else:
+        L = A[0:len(A)//2]
+        R = A[len(A)//2:len(A)]
+        
+        cL = count_inv(L)
+        cR = count_inv(R)
+        cM = merge_and_count(A)
+        
+        return cL + cR + cM
             
     
                 

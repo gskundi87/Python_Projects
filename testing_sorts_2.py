@@ -11,12 +11,13 @@ from sorts import *
 
 def main():
     rng = np.random.default_rng()
-    i1 = 9
-    i2 = 10
+    i1 = 11
+    i2 = 12
     
     for x in range(i1,i2):
         a = rng.integers(-2**x, 2**x, 2**x)
         b = a.copy()
+        c = a.copy()
         
         time1 = time.perf_counter()
         print(f"{bubble_sort_count_inv(a)} inversions")
@@ -27,6 +28,11 @@ def main():
         print(f"{insertion_sort_count_inv(b)} inversions")
         time2 = time.perf_counter()  
         print(f"Insertion Sorted in {time2 - time1:0.4f} seconds")
+        
+        time1 = time.perf_counter()
+        print(f"{count_inv(c)} inversions")
+        time2 = time.perf_counter()  
+        print(f"Count Inversions in {time2 - time1:0.4f} seconds")
         
     # for x in range(i1,i2):
     #     a = rng.integers(-2**x, 2**x, 2**x)
