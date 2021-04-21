@@ -150,17 +150,6 @@ def random_quicksort(A,p,r):
         random_quicksort(A,p,q-1)
         random_quicksort(A,q+1,r)
         
-def det_partition(A,p,r):
-    x = find_median(A)
-    A[x],A[r] = A[r],A[x]
-    return partition(A,p,r)
-
-def det_quicksort(A,p,r):
-    if p < r:
-        q = det_partition(A,p,r)
-        det_quicksort(A,p,q-1)
-        det_quicksort(A,q+1,r)
-        
 def merge_and_count(A):
     count = 0
     i = 0
@@ -209,21 +198,60 @@ def count_inv(A):
         return cL + cR + cM
 
 
-def find_median(A):
-    if len(A) >=3 and len(A) <= 5:
-        bubble_sort(A)
-        return A[2]
-    elif len(A) <= 2:
-        return A[0]
-    else:
-        g = math.ceil(len(A)//5)
-        temp = [0] * g
-        for x in range(0,g):
-            C = A[5*x:5*(x+1)]
-            temp[x] = find_median(C)
-        return find_median(temp)
+def find_median(B):
+    if len(B) == 5:
+        return B[2]
+    if len(B) < 5:
+        bubble_sort(B)
+        return B[len(B)//2]
+    g = math.ceil(len(B)//5)
+    temp = [0] * g
+    for x in range(0,g):
+        C = B[5*x:5*(x+1)]
+        temp[x] = find_median(C)
+    return find_median(temp)
+    
+def linear_search(A,x):
+    for i in range(0,len(A)):
+        if A[i] == x:
+            return i
+    return -1
+
+def det_partition(A,p,r):
+    y = find_median(A[p:r])
+    x = linear_search(A[p:r],y)
+    A[x+p],A[r] = A[r],A[x+p]
+    return partition(A,p,r)
+
+def det_quicksort(A,p,r):
+    if p < r:
+        q = det_partition(A,p,r)
+        det_quicksort(A,p,q-1)
+        det_quicksort(A,q+1,r)
+
+def det_quick_select(A,x):
+    if x < 0 or x > len(A):
+        return -1
+    if len(A) <= 10:
+        quicksort(A,0,len(A)-1)
+        return A[x-1]
+    q = det_partition(A,0,len(A)-1)
+    if x == q + 1:
+        return A[q]
+    if x < q + 1:
+        return det_quick_select(A[0:q],x)
+    return det_quick_select(A[q+1:len(A)],x-q-1)
                 
-A = rng.integers(-25,25,23)
+A = rng.integers(-1000,1000,50)
 B = A.copy()
-print(find_median(B))
-bubble_sort(B)
+
+# find_median(B)
+
+# det_quicksort(B,0,len(B)-1)
+# print(B)
+
+x = 41
+n = det_quick_select(A,x)
+quicksort(B,0,len(B)-1)
+print(n)
+print(B[x-1])
