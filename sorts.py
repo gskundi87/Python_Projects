@@ -199,9 +199,7 @@ def count_inv(A):
 
 
 def find_median(B):
-    if len(B) == 5:
-        return B[2]
-    if len(B) < 5:
+    if len(B) <= 5:
         bubble_sort(B)
         return B[len(B)//2]
     g = math.ceil(len(B)//5)
@@ -218,8 +216,8 @@ def linear_search(A,x):
     return -1
 
 def det_partition(A,p,r):
-    y = find_median(A[p:r])
-    x = linear_search(A[p:r],y)
+    y = find_median(A[p:r+1])
+    x = linear_search(A[p:r+1],y)
     A[x+p],A[r] = A[r],A[x+p]
     return partition(A,p,r)
 
@@ -241,6 +239,8 @@ def det_quick_select(A,x):
     if x < q + 1:
         return det_quick_select(A[0:q],x)
     return det_quick_select(A[q+1:len(A)],x-q-1)
+
+
                 
 # A = rng.integers(-1000,1000,50)
 # B = A.copy()
