@@ -7,7 +7,7 @@ Created on Thu Nov 26 21:49:57 2020
 
 import random
 
-a = random.sample(range(-25,25),25)
+# a = random.sample(range(-25,25),25)
 
 def fast_exp_rec(x,y):
     if y == 0:
@@ -35,6 +35,22 @@ def fast_exp_iter(x,y):
         
     return result
 
+def fast_mod_exp_rec(x,y,m):
+    if x == 0:
+        return 0
+    if y == 0:
+        return 1
+     
+    z = 0
+    
+    if (y % 2) == 0:
+        z = fast_mod_exp_rec(x,y//2,m)
+        z = (z*z) % m
+    else:
+        z = x % m
+        z = (z*fast_mod_exp_rec(x,y-1,m) % m) % m
+    return ((z+m) % m)
+
 def fast_mod_exp_iter(x,y,m):
     result = 1
     power = x
@@ -49,7 +65,7 @@ def fast_mod_exp_iter(x,y,m):
     return result
     
 def fast_mult_rec(x,y):
-    if y == 0:
+    if x == 0 or y == 0:
         return 0
     
     y1 = y // 2
@@ -60,6 +76,19 @@ def fast_mult_rec(x,y):
         return 2*z
     elif y % 2 == 1:
         return 2*z + x
+    
+def fast_mult_iter(x,y):
+    result = 0
+    power = 1
+    multiplier = y
+    
+    while multiplier > 0:
+        if multiplier % 2 == 1:
+            result += x*power
+        power *= 2
+        multiplier = multiplier//2
+        
+    return result
 
 def insertion_sort_iter(a):
     for x in range(1,25):
@@ -81,15 +110,19 @@ def gcd(a,b):
         b = temp % b 
     return a
 
-print(gcd(662,414))
+# print(gcd(662,414))
 
-print(fast_exp_rec(4,4))
+# print(fast_exp_rec(4,4))
 
-print(fast_mod_exp_iter(3,13,7))
+# print(fast_mod_exp_iter(3,13,7))
 
-print(fast_exp_iter(4,4))
+# print(mod_exp(3,13,7))
 
-print(fast_mult_rec(4,9))
+# print(fast_exp_iter(4,4))
 
-a = insertion_sort_iter(a)
+# print(fast_mult_rec(5467,3456))
+
+# print(fast_mult_iter(5467,3456))
+
+# a = insertion_sort_iter(a)
     

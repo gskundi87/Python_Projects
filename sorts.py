@@ -242,16 +242,16 @@ def det_quick_select(A,x):
         return det_quick_select(A[0:q],x)
     return det_quick_select(A[q+1:len(A)],x-q-1)
                 
-A = rng.integers(-1000,1000,50)
-B = A.copy()
+# A = rng.integers(-1000,1000,50)
+# B = A.copy()
 
 # find_median(B)
 
 # det_quicksort(B,0,len(B)-1)
 # print(B)
 
-x = 41
-n = det_quick_select(A,x)
-quicksort(B,0,len(B)-1)
-print(n)
-print(B[x-1])
+# x = 41
+# n = det_quick_select(A,x)
+# quicksort(B,0,len(B)-1)
+# print(n)
+# print(B[x-1])
