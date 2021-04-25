@@ -43,8 +43,8 @@ from exponentiation import *
 # print(f"Mult Rec in {time2 - time1:0.4f} seconds")
 
 rng = np.random.default_rng()
-i1 = 13
-i2 = 14
+i1 = 16
+i2 = 17
 
 for x in range(i1,i2):
     a = rng.integers(-2**x, 2**x, 2**x)

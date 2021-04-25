@@ -6,6 +6,7 @@ Created on Wed Mar 31 09:54:58 2021
 """
 import numpy as np
 import math
+import random
 
 rng = np.random.default_rng()
 
@@ -119,37 +120,7 @@ class heap(object):
         for x in self.list:
             result = result + str(x) + ','
         return '{' + result[:-1] + '}'
-        
-def partition(A,p,r):
-    x = A[r]
-    i = p - 1
     
-    for j in range(p,r):
-        if A[j] <= x:
-            i = i+1
-            A[i],A[j] = A[j],A[i]
-            
-    A[i+1],A[r] = A[r],A[i+1]
-    
-    return i + 1
-
-def quicksort(A,p,r):
-    if p < r:
-        q = partition(A,p,r)
-        quicksort(A,p,q-1)
-        quicksort(A,q+1,r)
-        
-def random_partition(A,p,r):
-    x = rng.integers(p,r+1,1)
-    A[x],A[r] = A[r],A[x]
-    return partition(A,p,r)
-
-def random_quicksort(A,p,r):
-    if p < r:
-        q = random_partition(A,p,r)
-        random_quicksort(A,p,q-1)
-        random_quicksort(A,q+1,r)
-        
 def merge_and_count(A):
     count = 0
     i = 0
@@ -196,7 +167,36 @@ def count_inv(A):
         cM = merge_and_count(A)
         
         return cL + cR + cM
+        
+def partition(A,p,r):
+    x = A[r]
+    i = p - 1
+    
+    for j in range(p,r):
+        if A[j] <= x:
+            i = i+1
+            A[i],A[j] = A[j],A[i]
+            
+    A[i+1],A[r] = A[r],A[i+1]
+    
+    return i + 1
 
+def quicksort(A,p,r):
+    if p < r:
+        q = partition(A,p,r)
+        quicksort(A,p,q-1)
+        quicksort(A,q+1,r)
+        
+def random_partition(A,p,r):
+    x = random.randint(p,r)
+    A[x],A[r] = A[r],A[x]
+    return partition(A,p,r)
+
+def random_quicksort(A,p,r):
+    if p < r:
+        q = random_partition(A,p,r)
+        random_quicksort(A,p,q-1)
+        random_quicksort(A,q+1,r)
 
 def find_median(B):
     if len(B) <= 5:

@@ -90,19 +90,6 @@ def fast_mult_iter(x,y):
         
     return result
 
-def insertion_sort_iter(a):
-    for x in range(1,25):
-        key = a[x]
-        index = x - 1
-        
-        while index >= 0 and a[index] > key:
-            a[index + 1] = a[index]
-            index = index - 1
-            
-        a[index + 1] = key
-        
-    return a
-
 def gcd(a,b):
     while b != 0:
         temp = a
