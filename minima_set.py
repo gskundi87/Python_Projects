@@ -11,25 +11,27 @@ import math
 def bubble_sort(x):
     for i in range(len(x)-1):
         for j in range(0, len(x)-i-1):
-            if x[j] > x[j+1]:
+            if x[j][0] > x[j+1][0]:
                 x[j],x[j+1] = x[j+1],x[j]
+    return x
 
 def find_median(B):
     if len(B) <= 5:
-        bubble_sort(B)
+        B = bubble_sort(B)
         return B[len(B)//2]
     g = math.ceil(len(B)//5)
-    temp = [0] * g
+    temp = []
     for x in range(0,g):
         C = B[5*x:5*(x+1)]
-        temp[x] = find_median(C)
+        temp.append(find_median(C))
     return find_median(temp)
-    
-def linear_search(A,x):
-    for i in range(0,len(A)):
-        if A[i] == x:
-            return i
-    return -1
+
+def find_min(A):
+    minimum = A[0]
+    for i in range(1,len(A)):
+        if A[i][1] < minimum[1]:
+            minimum = A[i]
+    return minimum
 
 def make_set(count, maximum):
     A = []
@@ -56,11 +58,23 @@ def minima_set_BF(A):
     return B
 
 def minima_set_DC(A):
-    return
+    if len(A) <= 5:
+        return minima_set_BF(A)
+    p = find_median(A)
+    L = [x for x in A if x[0] <= p[0]]
+    G = [x for x in A if x[0] > p[0]]
+    M1 = minima_set_DC(L)
+    M2 = minima_set_DC(G)
+    m = find_min(M1)
+    temp = []
+    for m2 in M2:
+        if m2[1] < m[1]:
+            temp.append(m2)
+    return list(M1 + temp)  
 
 A = [(4,65),(8,15),(8.5,2),(2,35),(10,0),(9,85),(8.2,90)]
 
-B = minima_set_BF(A)
+B = minima_set_DC(A)
 
 print(B)
         

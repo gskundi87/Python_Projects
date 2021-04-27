@@ -15,6 +15,7 @@ def bubble_sort(x):
         for j in range(0, len(x)-i-1):
             if x[j] > x[j+1]:
                 x[j],x[j+1] = x[j+1],x[j]
+    return x
 
 def bubble_sort_count_inv(x):
     count = 0
@@ -242,8 +243,13 @@ def det_quick_select(A,x):
 
 
                 
-# A = rng.integers(-1000,1000,50)
-# B = A.copy()
+A = rng.integers(-1000,1000,50)
+B = A.copy()
+
+print(det_quick_select(B,50))
+A = bubble_sort(A)
+
+print(A[49])
 
 # find_median(B)
 
