@@ -38,7 +38,7 @@ def closestpair(L):
 	def recur(L):
 		if len(L) < 2:
 			return L
-		split = len(L)/2
+		split = len(L)//2
 		splitx = L[split][0]
 		L = list(merge(recur(L[:split]), recur(L[split:])))
 
@@ -50,7 +50,7 @@ def closestpair(L):
 		#
 		E = [p for p in L if abs(p[0]-splitx) < best[0]]
 		for i in range(len(E)):
-			for j in range(1,8):
+			for j in range(1,12):
 				if i+j < len(E):
 					testpair(E[i],E[i+j])
 		return L
@@ -59,6 +59,6 @@ def closestpair(L):
 	recur(L)
 	return best[1]
 
-# closestpair([(0,0),(7,6),(2,20),(12,5),(16,16),(5,8),\
-#			  (19,7),(14,22),(8,19),(7,29),(10,11),(1,13)])
+cp = closestpair([(0,0),(7,6),(2,20),(12,5),(16,16),(5,8),\
+			  (19,7),(14,22),(8,19),(7,29),(10,11),(1,13)])
 # returns: (7,6),(5,8)

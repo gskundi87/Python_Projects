@@ -8,7 +8,7 @@ import numpy as np
 import math
 import random
 
-rng = np.random.default_rng()
+# rng = np.random.default_rng()
 
 def bubble_sort(x):
     for i in range(len(x)-1):
@@ -243,13 +243,13 @@ def det_quick_select(A,x):
 
 
                 
-A = rng.integers(-1000,1000,50)
-B = A.copy()
+# A = rng.integers(-1000,1000,50)
+# B = A.copy()
 
-print(det_quick_select(B,50))
-A = bubble_sort(A)
+# print(det_quick_select(B,50))
+# A = bubble_sort(A)
 
-print(A[49])
+# print(A[49])
 
 # find_median(B)
 
@@ -261,3 +261,31 @@ print(A[49])
 # quicksort(B,0,len(B)-1)
 # print(n)
 # print(B[x-1])
+
+def tryone(n, tries):
+    from random import random
+    from time import perf_counter
+
+    x = [None] * n
+    median_rank = (n+1) // 2
+    sum1 = sum2 = 0.0
+    for i in range(tries):
+        for i in range(n):
+            x[i] = random()
+        y = x[:]
+
+        start = perf_counter()
+        got1 = det_quick_select(x,median_rank)
+        elapsed = perf_counter() - start
+        sum1 += elapsed
+
+    return sum1, sum2
+
+def drive(tries):
+    for i in range(23):
+        n = 2**i + 1
+        fast, slow = tryone(n, tries)
+        print (f"%8d %7.3f %7.3f" % (n, fast/tries, slow/tries))
+
+if __name__ == "__main__":
+    drive(3)
