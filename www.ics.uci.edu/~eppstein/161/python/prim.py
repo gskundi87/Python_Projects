@@ -9,7 +9,7 @@ def weight(A, u, v):
 def adjacent(A, u):
     L = []
     for x in range(len(A)):
-        if A[u][x] > 0 and x <> u:
+        if A[u][x] > 0 and x != u:
             L.insert(0,x)
     return L
 
