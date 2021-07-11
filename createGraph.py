@@ -5,12 +5,17 @@ Created on Mon May 24 21:19:59 2021
 @author: p4u13
 """
 
-vertices = [['a',0,False,None],['b',1000000,False,None],['c',1000000,False,None],
+vertices_list = [['a',0,False,None],['b',1000000,False,None],['c',1000000,False,None],
             ['d',1000000,False,None],['e',1000000,False,None],['f',1000000,False,None],
             ['g',1000000,False,None],['h',1000000,False,None]]
 
-edges = {'a': [('a','b'),('a','c')]}
+vertices_dict = {'a': ['a',0,False,None], 'b': ['b',1000000,False,None], 'c': ['c',1000000,False,None],
+            'd': ['d',1000000,False,None], 'e': ['e',1000000,False,None], 'f': ['f',1000000,False,None],
+            'g': ['g',1000000,False,None], 'h': ['h',1000000,False,None]}
 
+
+
+edges = {'a': [('a','b'),('a','c')]}
 edges['b'] = [('b','a'),('b','c'),('b','d'),('b','e')]
 edges['c'] = [('c','a'),('c','b'),('c','d')]
 edges['d'] = [('d','b'),('d','c'),('d','e'),('d','f'),('d','g')]
@@ -20,7 +25,6 @@ edges['g'] = [('g','d'),('g','f'),('g','h')]
 edges['h'] = [('h','e'),('h','g')]
 
 weights = {('a','b'): 2, ('b','a'): 2}
-
 weights[('a','c')] = 4
 weights[('c','a')] = 4
 weights[('b','c')] = 1
@@ -46,13 +50,14 @@ weights[('h','e')] = 2
 weights[('g','h')] = 4
 weights[('h','g')] = 4
 
-class heap(object):
+class heap(list,dict):
     def __init__(self, list):
-        self.list = list.copy()
+        self.__list = list.copy()
+        self.__dict = dict.copy()
         self.heapSize = 0
         
     def isEmpty(self):
-        if len(self.list) == 0:
+        if len(self.__list) == 0:
             return True
         else:
             return False
@@ -73,56 +78,37 @@ class heap(object):
         if self.isEmpty():
             return None
         else:
-            self.list[0], self.list[self.heapSize - 1] = \
-            self.list[self.heapSize - 1], self.list[0]
+            self.__list[0], self.__list[self.heapSize - 1] = \
+            self.__list[self.heapSize - 1], self.__list[0]
             self.heapSsize -= 1
-            return self.list[self.heapSize]
-        
-    def getList(self):
-        return self.list[:]
+            self.minHeapify(0)
+            return self.__list[self.heapSize]
         
     def minHeapify(self, index):
         l = self.left(index)
         r = self.right(index)
         
-        if l < self.heapSize and self.list[l][2] < self.list[index][2]:
+        if l < self.heapSize and self.__list[l][2] < self.__list[index][2]:
             smallest = l
         else:
             smallest = index
             
-        if r < self.heapSize and self.list[r][2] < self.list[smallest][2]:
+        if r < self.__heapSize and self.__list[r][2] < self.__list[smallest][2]:
             smallest = r
             
         if smallest != index:
-            self.list[index], self.list[smallest] = \
-            self.list[smallest], self.list[index]
+            self.__list[index], self.__list[smallest] = \
+            self.__list[smallest], self.__list[index]
             self.minHeapify(smallest)
             
     def buildMinHeap(self):
-        self.heapSize = len(self.list)
+        self.heapSize = len(self.__list)
         
-        for x in range((len(self.list) - 1) // 2, -1, -1):
+        for x in range((len(self.__list) - 1) // 2, -1, -1):
             self.minHeapify(x)
-            
-    def heapsort(self):
-        self.buildMinHeap()
-        
-        for x in range(len(self.list) - 1, 0, -1):
-            self.list[0], self.list[x] = self.list[x], self.list[0]
-            self.heapSize = self.heapSize - 1
-            self.minHeapify(0)
             
     def __str__(self):
         result = ''
-        for x in self.list:
+        for x in self.__list:
             result = result + str(x) + ','
         return '{' + result[:-1] + '}'
-    
-distance = heap([])
-
-for x in vertices:
-    distance.insert(x)
-    
-distance.buildMinHeap()
-    
-print(distance.getList())
