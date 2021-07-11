@@ -7,7 +7,7 @@ Created on Thu Apr  1 22:01:18 2021
 
 class heap(object):
     def __init__(self, list):
-        self.list = list.copy()
+        self.list = list[:]
         self.heapSize = 0
         
     def isEmpty(self):
@@ -27,6 +27,7 @@ class heap(object):
     
     def insert(self, x):
         self.list.append(x)
+        self.heapSize = 0
         
     def getList(self):
         return self.list[:]
