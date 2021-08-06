@@ -38,29 +38,51 @@ class bst():
         return self.root
 
     def insert(self,v):
-        if self.root == None:
-            self.root = bst_node(v,None)
-        else:
-            flag = None
-            temp1 = self.root
-            temp2 = None
-            while temp1 != None:
-                if v < temp1.get_value():
-                    flag = False
-                    temp2 = temp1
-                    temp1 = temp1.get_left()
-                elif v > temp1.get_value():
-                    flag = True
-                    temp2 = temp1
-                    temp1 = temp1.get_right()
-                else:
-                    temp1.increase_count()
-                    return
-            
-            if flag:
-                temp2.set_right(bst_node(v,temp2))
+        temp2 = None
+        temp1 = self.root
+        
+        while temp1 != None:
+            temp2 = temp1
+            if v < temp1.get_value():
+                temp1 = temp1.get_left()
+            elif v > temp1.get_value():
+                temp1 = temp1.get_right()
             else:
-                temp2.set_left(bst_node(v,temp2))
+                temp1.increase_count()
+                return
+            
+        x = bst_node(v, temp2)
+        
+        if temp2 == None:
+            self.root = x
+        elif v < temp2.get_value():
+            temp2.set_left(x)
+        else:
+            temp2.set_right(x)
+            
+        # if self.root == None:
+        #     self.root = bst_node(v,None)
+        # else:
+        #     flag = None
+        #     temp1 = self.root
+        #     temp2 = None
+        #     while temp1 != None:
+        #         if v < temp1.get_value():
+        #             flag = False
+        #             temp2 = temp1
+        #             temp1 = temp1.get_left()
+        #         elif v > temp1.get_value():
+        #             flag = True
+        #             temp2 = temp1
+        #             temp1 = temp1.get_right()
+        #         else:
+        #             temp1.increase_count()
+        #             return
+            
+        #     if flag:
+        #         temp2.set_right(bst_node(v,temp2))
+        #     else:
+        #         temp2.set_left(bst_node(v,temp2))
 
     def print_tree(self,node=bst_node):
         if node != None:

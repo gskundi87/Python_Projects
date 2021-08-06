@@ -122,6 +122,42 @@ class heap(object):
             result = result + str(x) + ','
         return '{' + result[:-1] + '}'
     
+def merge_sort(A,p,r):
+    if p < r:
+        q = (p+r)//2
+        merge_sort(A,p,q)
+        merge_sort(A,q+1,r)
+        merge(A,p,q,r)
+        
+def merge(A,p,q,r):
+    L = A[p:q+1]
+    R = A[q+1:r+1]
+    
+    i = 0
+    j = 0
+    k = p
+    
+    while i < len(L) and j < len(R):
+        if L[i] < R[j]:
+            A[k] = L[i]
+            i += 1
+            k += 1
+        else:
+            A[k] = R[j]
+            j += 1
+            k += 1
+      
+    while i < len(L):
+        A[k] = L[i]
+        i += 1
+        k += 1
+        
+    while j < len(R):
+        A[k] = R[j]
+        j += 1
+        k += 1
+    
+    
 def merge_and_count(A):
     count = 0
     i = 0
@@ -272,8 +308,8 @@ def tryone(n, tries):
     for i in range(tries):
         for i in range(n):
             x[i] = random()
+            
         y = x[:]
-
         start = perf_counter()
         got1 = det_quick_select(x,median_rank)
         elapsed = perf_counter() - start
@@ -281,11 +317,41 @@ def tryone(n, tries):
 
     return sum1, sum2
 
-def drive(tries):
-    for i in range(23):
-        n = 2**i + 1
-        fast, slow = tryone(n, tries)
-        print (f"%8d %7.3f %7.3f" % (n, fast/tries, slow/tries))
+def trytwo(n, tries):
+    from random import random
+    from time import perf_counter
 
-if __name__ == "__main__":
-    drive(3)
+    x = [None] * n
+    median_rank = (n+1) // 2
+    sum1 = sum2 = 0.0
+    for i in range(tries):
+        for i in range(n):
+            x[i] = random()
+            
+        y = x[:]
+        start = perf_counter()
+        got1 = insertion_sort_count_inv(x)
+        elapsed = perf_counter() - start
+        sum1 += elapsed
+        start1 = perf_counter()
+        got2 = count_inv(y)
+        elapsed1 = perf_counter() - start1
+        sum2 += elapsed1
+
+    return sum1, sum2, got1, got2
+
+def drive(tries):
+    for i in range(10):
+        n = 2**i + 1
+        fast, slow, got1, got2 = trytwo(n, tries)
+        print (f"%8d %7.3f %7.3f %d %d" % (n, fast/tries, slow/tries, got1, got2))
+
+# if __name__ == "__main__":
+    #drive(3)
+x = []
+
+for i in range(10):
+    x.append(random.randint(0,100))
+
+print(x)
+merge_sort(x,0,len(x)-1)
