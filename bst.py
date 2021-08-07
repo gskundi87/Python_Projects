@@ -59,7 +59,35 @@ class bst():
             temp2.set_left(x)
         else:
             temp2.set_right(x)
+
+    def find(self,v):
+        if self.root == None:
+            return None
+        
+        x = self.root
+        
+        while x != None:
+            if x.get_value() == v:
+                return x
+            elif x.get_value() > v:
+                x = x.get_left()
+            else:
+                x = x.get_right()
+                
+        return None
+    
+    #def transplant(self,u,v):
+        
+    def find_min(self,n):        
+        x = n
+        
+        while x.get_left() != None:
+            x = x.get_left()
             
+        return x
+            
+            
+    
         # if self.root == None:
         #     self.root = bst_node(v,None)
         # else:

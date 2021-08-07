@@ -55,20 +55,20 @@ This is a temporary script file.
 #     else:
 #         print(x, 'is not 1.0')
 
-# import sympy as sym
+import sympy as sym
 
-# x = sym.symbols('x')
+x = sym.symbols('x')
 
-# def newton_raphson(expr,guess,epsilon):
-#     der = sym.diff(expr)
+def newton_raphson(expr,guess,epsilon):
+    der = sym.diff(expr)
     
-#     while abs(expr.subs(x,guess)) >= epsilon:
-#         guess = guess - (expr.subs(x,guess)/der.subs(x,guess))
-#     print(guess)
-#     print(expr.subs(x,guess))
+    while abs(expr.subs(x,guess)) >= epsilon:
+        guess = guess - (expr.subs(x,guess)/der.subs(x,guess))
+    print(guess)
+    print(expr.subs(x,guess))
     
-# expr = x**5+2*x**4-3*x**3
-# newton_raphson(expr, -2.4, 0.00001)
+expr = x**5+2*x**4-3*x**3
+newton_raphson(expr, -2.4, 0.00001)
 
 # def isIn(str1, str2):
 #     if str1 in str2:
@@ -100,7 +100,7 @@ def findRoot(x, power, epsilon):
 
 def testFindRoot():
     epsilon = 0.0001
-    for x in [0.25, -0.25, 2, -2, 8, -8]:
+    for x in [0.25, -0.25, 1, 2, -2, 8, -8]:
         for power in range(1, 4):
             print('Testing x =', str(x), 'and power = ', power)
             result = findRoot(x, power, epsilon)

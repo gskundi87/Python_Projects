@@ -67,5 +67,3 @@ class heap(object):
         for x in self.list:
             result = result + str(x) + ','
         return '{' + result[:-1] + '}'
-        
-    
