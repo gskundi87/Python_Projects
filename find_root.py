@@ -85,6 +85,7 @@ def findRoot(x, power, epsilon):
     epsilon > 0 & power >= 1
     Returns float y such that y**power is within epsilon of x.
     If such a float does not exist, it returns None"""
+
     if x < 0 and power%2 == 0: #Negative number has no even-powered roots
         return None
     low = min(-1.0, x)
