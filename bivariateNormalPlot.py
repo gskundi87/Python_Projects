@@ -22,7 +22,7 @@ y = np.linspace(-10,10,500)
 X,Y = np.meshgrid(x,y)
 pos = np.empty(X.shape + (2,))
 pos[:, :, 0] = X; pos[:, :, 1] = Y
-rv = multivariate_normal([mu_x, mu_y], [[variance_x, 0], [0, variance_y]])
+rv = multivariate_normal([mu_x, mu_y], [[variance_x, 0.5], [0.5, variance_y]])
 
 #Make a 3D plot
 fig = plt.figure()
