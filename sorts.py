@@ -162,7 +162,7 @@ def merge_and_count(A):
     count = 0
     i = 0
     j = len(A)//2
-    temp = [0] * len(A)
+    temp = [None] * len(A)
     k = 0
     
     while i < len(A)//2 and j < len(A):
@@ -192,8 +192,14 @@ def merge_and_count(A):
     return count
         
 def count_inv(A):
-    if len(A) < 10:
-        return insertion_sort_count_inv(A)
+    if len(A) == 1:
+        return 0
+    if len(A) == 2:
+        if A[0] > A[1]:
+            A[0], A[1] = A[1], A[0]
+            return 1
+        else:
+            return 0
     
     else:
         L = A[0:len(A)//2]
@@ -277,81 +283,111 @@ def det_quick_select(A,x):
         return det_quick_select(A[0:q],x)
     return det_quick_select(A[q+1:len(A)],x-q-1)
 
-
-                
-# A = rng.integers(-1000,1000,50)
-# B = A.copy()
-
-# print(det_quick_select(B,50))
-# A = bubble_sort(A)
-
-# print(A[49])
-
-# find_median(B)
-
-# det_quicksort(B,0,len(B)-1)
-# print(B)
-
-# x = 41
-# n = det_quick_select(A,x)
-# quicksort(B,0,len(B)-1)
-# print(n)
-# print(B[x-1])
-
 def tryone(n, tries):
-    from random import random
     from time import perf_counter
 
-    x = [None] * n
-    median_rank = (n+1) // 2
-    sum1 = sum2 = 0.0
+    sum1 = 0.0
+    
     for i in range(tries):
-        for i in range(n):
-            x[i] = random()
-            
-        y = x[:]
         start = perf_counter()
-        got1 = det_quick_select(x,median_rank)
+        got1 = None
         elapsed = perf_counter() - start
         sum1 += elapsed
 
-    return sum1, sum2
+    return sum1, got1
 
 def trytwo(n, tries):
-    from random import random
     from time import perf_counter
 
-    x = [None] * n
-    median_rank = (n+1) // 2
-    sum1 = sum2 = 0.0
+    sum1 = 0.0
+    sum2 = 0.0
+    
     for i in range(tries):
-        for i in range(n):
-            x[i] = random()
-            
-        y = x[:]
         start = perf_counter()
-        got1 = insertion_sort_count_inv(x)
+        got1 = None
         elapsed = perf_counter() - start
         sum1 += elapsed
         start1 = perf_counter()
-        got2 = count_inv(y)
+        got2 = None
         elapsed1 = perf_counter() - start1
         sum2 += elapsed1
 
     return sum1, sum2, got1, got2
 
-def drive(tries):
-    for i in range(10):
-        n = 2**i + 1
-        fast, slow, got1, got2 = trytwo(n, tries)
-        print (f"%8d %7.3f %7.3f %d %d" % (n, fast/tries, slow/tries, got1, got2))
+def testQuickSorts(n, tries):
+    from time import perf_counter
 
+    sum1 = 0.0
+    sum2 = 0.0
+    r = 10*n
+    
+    x = []
+    
+    for i in range(tries):
+        for j in range(n):
+            x.append(random.randint(0,r)) 
+        y = x[:]
+        start = perf_counter()
+        got1 = quicksort(x,0,len(x)-1)
+        elapsed = perf_counter() - start
+        sum1 += elapsed
+        start1 = perf_counter()
+        got2 = random_quicksort(y,0,len(y)-1)
+        elapsed1 = perf_counter() - start1
+        sum2 += elapsed1
+
+    return sum1, sum2, got1, got2
+
+def driveQuickSortTest(tries):
+    for i in range(15):
+        n = 2**i
+        time1, time2, got1, got2 = testQuickSorts(n, tries)
+        print (f"%8d %7.3f %7.3f" % (n, time1/tries, time2/tries))
+
+# Compare quicksort algorithms for simple version and random version
+# Looks like asymptotically the random versioin is better
+if __name__ == "__main__":
+    A = []
+    
+    for i in range(11):
+        A.append(random.randint(0,100))
+
+    B = A.copy()
+    
+    print(A)
+    print(B)
+    
+    quicksort(A,0,len(A)-1)
+    random_quicksort(B,0,len(B)-1)
+    
+    print(A)
+    print(B)
+
+    driveQuickSortTest(10)
+
+# Test accuracy of count_inv vs simpler inversion counting methods
+# Currently not accurate as of 9/19/21 -> TODO
 # if __name__ == "__main__":
-    #drive(3)
-x = []
-
-for i in range(10):
-    x.append(random.randint(0,100))
-
-print(x)
-merge_sort(x,0,len(x)-1)
+#     A = []
+    
+#     for i in range(10):
+#         A.append(random.randint(0,100))
+    
+#     B = A.copy()
+#     C = A.copy()
+    
+#     print(A)
+#     print(B)
+#     print(C)
+    
+#     count1 = bubble_sort_count_inv(A)
+#     count2 = insertion_sort_count_inv(B)
+#     count3 = count_inv(C)
+    
+#     print(A)
+#     print(B)
+#     print(C)
+    
+#     print(count1)
+#     print(count2)
+#     print(count3)
