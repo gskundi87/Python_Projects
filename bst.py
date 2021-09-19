@@ -1,7 +1,7 @@
 class BST_NODE():
     def __init__(self,v,p):
         self.value = v
-        self.count = 0
+        self.count = 1
         self.parent = p
         self.left = None
         self.right = None
