@@ -4,11 +4,13 @@ Created on Sun Sep 19 22:04:42 2021
 
 @author: p4u13
 """
-def get_height(node):
-    if node == None:
-        return -1
-    else:
-        return node.height
+
+"""
+AS OF 9/21/21 - BST_ALT DOES NOT KEEP TRACK OF STSize or height
+THIS IS DONE IN AVL_ALT
+FURTHER ENHANCEMENT SHOULD BE TO HAVE BOTH BE STANDALONE WITH
+FULL NODE FUNCTIONALITY INCLUDING HEIGHTS AND STSize(to get rank)
+"""
     
 class BST_NODE():
     def __init__(self,k,p):
@@ -30,14 +32,11 @@ class BST_NODE():
                 self.parent.right = self.left or self.right
                 if self.parent.right is not None:
                     self.parent.right.parent = self.parent 
-            current = self.parent
-            while current.key is not None:
-                current.update_stats()
-                current = current.parent
             return self
         else:
             s = self.successor()
             self.key, s.key = s.key, self.key
+            self.count, s.count = s.count, self.count
             return s.delete() 
         
     def find(self,k):
@@ -79,12 +78,9 @@ class BST_NODE():
         if k == None:
             return
         
-        boolean = False
-        
         if k == self.key:
             self.count += 1
             x = self
-            boolean = True
         elif k < self.key:
             if self.left == None:
                 self.left = BST_NODE(k,self)
@@ -97,12 +93,6 @@ class BST_NODE():
                 x = self.right
             else:
                 x = self.right.insert(k)
-            
-        if not boolean:
-            current = self
-            while current.key is not None:
-                current.update_stats()
-                current = current.parent
                 
         return x
             
@@ -141,25 +131,17 @@ class BST_NODE():
         while current.parent != None and current.parent.right == self:
             current = current.parent
         return current.parent
-            
-        
-    def update_stats(self):
-        self.STSize = (0 if self.left is None else self.left.STSize) + (0 if self.right is None else self.right.STSize) + 1 
-        self.height = max(get_height(self.left), get_height(self.right)) + 1
         
 class BST(object):
     def __init__(self):
         self.root = None
-        self.psroot = BST_NODE(None, None)
         
     def delete(self, k):
         """Delete the node for key k if it is in the tree."""
         node = self.find(k)
         if node == None:
             return None
-        deleted = node.delete()
-        self.reroot()
-        return deleted
+        return node.delete()
     
     def find(self, k):
         """Return the node for key k if is in the tree, or None otherwise."""
@@ -171,8 +153,7 @@ class BST(object):
     def insert(self, k):
         """Insert key k into this BST, modifying it in-place."""
         if self.root is None:
-            self.psroot.left = BST_NODE(k,self.psroot)
-            self.reroot()
+            self.root = BST_NODE(k,None)
             return self.root
         else:
             return self.root.insert(k)
@@ -183,9 +164,6 @@ class BST(object):
             return 0
         else:
             return self.root.rank(k)  
-    
-    def reroot(self):
-        self.root = self.psroot.left
             
     def __str__(self):
         if self.root is None: return '<empty tree>'
@@ -216,15 +194,15 @@ class BST(object):
             return lines, pos, width
         return '\n'.join(recurse(self.root) [0])
             
-import random
+# import random
 
-items = [random.randrange(100) for i in range(25)]
+# items = [random.randrange(100) for i in range(25)]
 
-tree = BST()
+# tree = BST()
 
-for item in items:
-    tree.insert(item)
+# for item in items:
+#     tree.insert(item)
 
-print(tree)  
+# print(tree)
                 
         
