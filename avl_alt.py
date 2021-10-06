@@ -75,7 +75,7 @@ Supports insert, delete, find, find_min, next_larger each in O(lg n) time.
                     self.left_rotate(node)
             node = node.parent
 
-    ## find(k), find_min(), and next_larger(k) inherited from bst.BST
+    ## other methods inherited from bst_alt.py
 
     def insert(self, k):
         """Inserts a node with key k into the subtree rooted at this node.

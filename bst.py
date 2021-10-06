@@ -13,9 +13,6 @@ class BST():
     def __init__(self):
         self.root = None
 
-    def get_root(self):
-        return self.root
-
     def insert(self,v):
         temp2 = None
         temp1 = self.root
@@ -116,6 +113,8 @@ class BST():
             self.transplant(n,x)
             x.left = n.left
             x.left.parent = x
+            
+        return n
                 
             
     def __str__(self):

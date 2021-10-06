@@ -12,7 +12,7 @@ def update_height(node):
 class AVL(bst.BST):
     """
 AVL binary search tree implementation.
-Supports insert, find, and delete-min operations in O(lg n) time.
+Supports insert, find, and delete operations in O(lg n) time.
 """
     def left_rotate(self, x):
         y = x.right
@@ -49,11 +49,28 @@ Supports insert, find, and delete-min operations in O(lg n) time.
         x.parent = y
         update_height(x)
         update_height(y)
+        
+    def delete(self, k):
+        """Deletes and returns a node with key k if it exists from the BST.
+        This AVL version guarantees the balance property: h = O(lg n).
+        
+        Args:
+            k: The key of the node that we want to delete.
+            
+        Returns:
+            The deleted node with key k.
+        """
+        node = super(AVL, self).delete(k)
+        ## node.parent is actually the old parent of the node,
+        ## which is the first potentially out-of-balance node.
+        self.rebalance(node.parent)
+        return node
 
     def insert(self, v):
         """Insert key v into this tree, modifying it in-place."""
         node = bst.BST.insert(self, v)
         self.rebalance(node)
+        return node
 
     def rebalance(self, node):
         while node is not None:
@@ -72,10 +89,6 @@ Supports insert, find, and delete-min operations in O(lg n) time.
                     self.left_rotate(node)
             node = node.parent
 
-    # def delete_min(self):
-    #     node, parent = bst.BST.delete_min(self)
-    #     self.rebalance(parent)
-    #     #raise NotImplemented('AVL.delete_min')
 
 import random
 
