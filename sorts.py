@@ -17,6 +17,13 @@ def bubble_sort(x):
                 x[j],x[j+1] = x[j+1],x[j]
     return x
 
+def bubble_sort_ip(x,p,r):
+    for i in range(p,r):
+        for j in range(p,r-i):
+            if x[j] > x[j+1]:
+                x[j],x[j+1] = x[j+1],x[j]
+    return x
+
 def bubble_sort_count_inv(x):
     count = 0
     for i in range(len(x)-1):
@@ -241,27 +248,35 @@ def random_quicksort(A,p,r):
         random_quicksort(A,p,q-1)
         random_quicksort(A,q+1,r)
 
-def find_median(B):
-    if len(B) <= 5:
-        bubble_sort(B)
-        return B[len(B)//2]
-    g = math.ceil(len(B)//5)
+def find_median(B,p,r):
+    lenB = r - p + 1
+    if lenB == 1 or lenB == 2:
+        return B[p]
+    if lenB == 3:
+        bubble_sort_ip(B,p,r)
+        return B[p+1]
+    if lenB == 4 or lenB == 5:
+        bubble_sort_ip(B,p,r)
+        return B[p+2]
+    g = (len(B)//5) + 1
     temp = [0] * g
-    for x in range(0,g):
-        C = B[5*x:5*(x+1)]
-        temp[x] = find_median(C)
-    return find_median(temp)
+    for x in range(g-1):
+        pC = 5*x
+        rC = 5*(x+1) - 1
+        temp[x] = find_median(B,pC,rC)
+    temp[g-1] = find_median(B,5*(g-1),len(B)-1)
+    return find_median(temp,0,len(temp)-1)
     
-def linear_search(A,x):
-    for i in range(0,len(A)):
+def linear_search(A,p,r,x):
+    for i in range(p,r+1):
         if A[i] == x:
             return i
     return -1
 
 def det_partition(A,p,r):
-    y = find_median(A[p:r+1])
-    x = linear_search(A[p:r+1],y)
-    A[x+p],A[r] = A[r],A[x+p]
+    y = find_median(A,p,r)
+    x = linear_search(A,p,r,y)
+    A[x],A[r] = A[r],A[x]
     return partition(A,p,r)
 
 def det_quicksort(A,p,r):
@@ -270,7 +285,7 @@ def det_quicksort(A,p,r):
         det_quicksort(A,p,q-1)
         det_quicksort(A,q+1,r)
 
-def det_quick_select(A,x):
+def det_quick_select(A,p,r,x):
     if x < 0 or x > len(A):
         return -1
     if len(A) <= 10:
@@ -280,45 +295,15 @@ def det_quick_select(A,x):
     if x == q + 1:
         return A[q]
     if x < q + 1:
-        return det_quick_select(A[0:q],x)
-    return det_quick_select(A[q+1:len(A)],x-q-1)
+        return det_quick_select(A,0,q-1,x)
+    return det_quick_select(A,q+1,len(A)-1,x-q-1)
 
-def tryone(n, tries):
-    from time import perf_counter
-
-    sum1 = 0.0
-    
-    for i in range(tries):
-        start = perf_counter()
-        got1 = None
-        elapsed = perf_counter() - start
-        sum1 += elapsed
-
-    return sum1, got1
-
-def trytwo(n, tries):
+def testSorts(n, tries):
     from time import perf_counter
 
     sum1 = 0.0
     sum2 = 0.0
-    
-    for i in range(tries):
-        start = perf_counter()
-        got1 = None
-        elapsed = perf_counter() - start
-        sum1 += elapsed
-        start1 = perf_counter()
-        got2 = None
-        elapsed1 = perf_counter() - start1
-        sum2 += elapsed1
-
-    return sum1, sum2, got1, got2
-
-def testQuickSorts(n, tries):
-    from time import perf_counter
-
-    sum1 = 0.0
-    sum2 = 0.0
+    sum3 = 0.0
     r = 10*n
     
     x = []
@@ -335,42 +320,50 @@ def testQuickSorts(n, tries):
         got2 = random_quicksort(y,0,len(y)-1)
         elapsed1 = perf_counter() - start1
         sum2 += elapsed1
+        start2 = perf_counter()
+        got3 = det_quicksort(y,0,len(y)-1)
+        elapsed2 = perf_counter() - start2
+        sum3 += elapsed2
 
-    return sum1, sum2, got1, got2
+    return sum1, sum2, sum3, got1, got2, got3
 
-def driveQuickSortTest(tries):
+def driveSortTest(tries):
     for i in range(15):
         n = 2**i
-        time1, time2, got1, got2 = testQuickSorts(n, tries)
-        print (f"%8d %7.3f %7.3f" % (n, time1/tries, time2/tries))
+        time1, time2, time3, got1, got2, got3 = testSorts(n, tries)
+        print (f"%8d, %7.3f, %7.3f %7.3f" % (n,time1/tries,time2/tries,time3/tries))
 
 # Compare quicksort algorithms for simple version and random version
 # Looks like asymptotically the random versioin is better
 if __name__ == "__main__":
     A = []
     
-    for i in range(11):
+    for i in range(24):
         A.append(random.randint(0,100))
 
     B = A.copy()
+    C = A.copy()
     
     print(A)
     print(B)
+    print(C)
     
     quicksort(A,0,len(A)-1)
     random_quicksort(B,0,len(B)-1)
+    det_quicksort(C,0,len(C)-1)
     
     print(A)
     print(B)
+    print(C)
 
-    driveQuickSortTest(10)
+    # driveSortTest(10)
 
 # Test accuracy of count_inv vs simpler inversion counting methods
 # Currently not accurate as of 9/19/21 -> TODO
 # if __name__ == "__main__":
 #     A = []
     
-#     for i in range(10):
+#     for i in range(20):
 #         A.append(random.randint(0,100))
     
 #     B = A.copy()

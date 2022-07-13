@@ -35,8 +35,6 @@ class BST():
             temp2.left = x
         else:
             temp2.right = x
-            
-        return x
 
     def find(self,n,v):        
         while n != None and n.value != v:
