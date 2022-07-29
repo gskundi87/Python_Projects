@@ -97,19 +97,16 @@ def gcd(a,b):
         b = temp % b 
     return a
 
-# print(gcd(662,414))
+print(gcd(662,414))
 
-# print(fast_exp_rec(4,4))
+print(fast_exp_rec(25,41))
 
-# print(fast_mod_exp_iter(3,13,7))
+print(fast_exp_iter(25,41))
 
-# print(mod_exp(3,13,7))
+print(fast_mod_exp_rec(3,13,7))
 
-# print(fast_exp_iter(4,4))
+print(fast_mod_exp_iter(3,13,7))
 
-# print(fast_mult_rec(5467,3456))
+print(fast_mult_rec(5467,3456))
 
-# print(fast_mult_iter(5467,3456))
-
-# a = insertion_sort_iter(a)
-    
+print(fast_mult_iter(5467,3456))
