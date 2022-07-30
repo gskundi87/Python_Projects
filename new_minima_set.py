@@ -8,23 +8,26 @@ Created on Sat Apr 24 12:06:39 2021
 import random
 import math
 
-def bubble_sort(x):
-    for i in range(len(x)-1):
-        for j in range(0, len(x)-i-1):
+def bubble_sort(x,p,r):
+    for i in range(0,r-p):
+        for j in range(p,r-i):
             if x[j][0] > x[j+1][0]:
                 x[j],x[j+1] = x[j+1],x[j]
     return x
 
-def find_median(B):
-    if len(B) <= 5:
-        B = bubble_sort(B)
-        return B[len(B)//2]
-    g = math.ceil(len(B)//5)
+def find_median(B,p,r):
+    if r-p+1 <= 5:
+        B = bubble_sort(B,p,r)
+        return B[(p+r)//2]
+    g = ((r-p)//5)
     temp = []
+    end = 0
     for x in range(0,g):
-        C = B[5*x:5*(x+1)]
-        temp.append(find_median(C))
-    return find_median(temp)
+        start = 5*x
+        end = 5*(x+1)-1
+        temp.append(find_median(B,start,end))
+    temp.append(find_median(B,end+1,len(B)-1))
+    return find_median(temp,0,len(temp)-1)
 
 def find_min(A):
     minimum = A[0]
@@ -60,7 +63,7 @@ def minima_set_BF(A):
 def minima_set_DC(A):
     if len(A) <= 5:
         return minima_set_BF(A)
-    p = find_median(A)
+    p = find_median(A,0,len(A)-1)
     L = [x for x in A if x[0] <= p[0]]
     G = [x for x in A if x[0] > p[0]]
     M1 = minima_set_DC(L)
@@ -75,8 +78,8 @@ def minima_set_DC(A):
 A = [(4,65),(8,15),(8.5,2),(2,35),(10,0),(9,85),(8.2,90)]
 D = A.copy()
 
-B = minima_set_DC(A)
-C = minima_set_BF(D)
+B = minima_set_BF(A)
+C = minima_set_DC(D)
 
 print(B)
 print(C)
