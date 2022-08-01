@@ -6,7 +6,8 @@ Created on Sat Apr 24 12:06:39 2021
 """
 
 import random
-import math
+import matplotlib.pyplot as plt
+import numpy as np
 
 def bubble_sort(x,p,r):
     for i in range(0,r-p):
@@ -36,12 +37,12 @@ def find_min(A):
             minimum = A[i]
     return minimum
 
-def make_set(count, maximum):
+def make_set(count, maximum1, maximum2):
     A = []
     
     for i in range(0,count):
-        a = random.randint(0, maximum)
-        b = random.randint(0, maximum)
+        a = random.randint(0, maximum1)
+        b = random.randint(0, maximum2)
         c = (a,b)
         A.append(c)
         
@@ -75,8 +76,17 @@ def minima_set_DC(A):
             temp.append(m2)
     return list(M1 + temp)  
 
-A = [(4,65),(8,15),(8.5,2),(2,35),(10,0),(9,85),(8.2,90)]
+# A = [(4,65),(8,15),(8.5,2),(2,35),(10,0),(9,85),(8.2,90)]
+
+A = make_set(10,10,100)
 D = A.copy()
+
+points = np.array(A)
+
+x,y = points.T
+
+plt.scatter(x,y)
+plt.show()
 
 B = minima_set_BF(A)
 C = minima_set_DC(D)
