@@ -5,10 +5,6 @@ Created on Thu Nov 26 21:49:57 2020
 @author: p4u1
 """
 
-import random
-
-# a = random.sample(range(-25,25),25)
-
 def fast_exp_rec(x,y):
     if y == 0:
         return 1
@@ -98,6 +94,8 @@ def gcd(a,b):
     return a
 
 print(gcd(662,414))
+
+print(25**41)
 
 print(fast_exp_rec(25,41))
 
