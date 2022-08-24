@@ -1,12 +1,11 @@
-dfs_rec(Adj, u, v, visited):
-	if v is in visited:
-		return
-	visited[v] = u
-	for x in Adj[v]:
-		dfs_rec(Adj, v, x, visited)
+dfs_rec(Adj, u, visited):
+	for v in Adj[u]:
+		if v is not in visited:
+			visited[v] = u
+			dfs_rec(Adj, v, visited)
 
 Adj = graphAdjList(G)
 s = startNode
-visited = {}
-dfs_rec(Adj, None, s, visited)
+visited = {s : None}
+dfs_rec(Adj, s, visited)
 		
