@@ -1,0 +1,12 @@
+Adj = graphAdjList(G)
+s = startNode
+stack = [s]
+visited = {s : None}
+
+while len(stack) is not 0:
+	u = stack.pop()
+	for v in Adj[u]:
+		if v is not in visited:
+			visited[v] = u
+		stack.append(v)
+		

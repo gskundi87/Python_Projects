@@ -1,0 +1,12 @@
+dfs_rec(Adj, u, v, visited):
+	if v is in visited:
+		return
+	visited[v] = u
+	for x in Adj[v]:
+		dfs_rec(Adj, v, x, visited)
+
+Adj = graphAdjList(G)
+s = startNode
+visited = {}
+dfs_rec(Adj, None, s, visited)
+		

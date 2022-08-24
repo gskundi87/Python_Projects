@@ -4,6 +4,7 @@ level = {s : 0}
 parent = {s : None}
 queue = [s]
 i = 1
+
 while len(queue) is not 0:
 	next = []
 	for u in queue:
