@@ -1,0 +1,24 @@
+Adj = graphAdjList	// Adj[u] returns list of tuples v = (n, d): vertex n and edge distance d = |(u, v)|
+			// all vertices initialized to n.visited = False, n.distance = +inf, n.parent = None
+s = startNode
+t = targetNode
+frontier = [] // Priority queue of nodes based on n.distance, probably as a bst for easy lookup as well
+s.distance = 0
+s.parent = None
+frontier.insert(s)
+frontier.sort()
+while len(frontier) is not 0:
+	u = frontier.pop(0)
+	u.visited = True
+	if u is t:
+		break
+	for v in Adj[u]:
+		if (v.n.visited is not True) and (u.distance + v.d < v.n.distance):
+			v.n.distance = u.distance + v.d
+			v.n.parent = u
+			x = frontier.find(v.n)
+			if v.n is in frontier:
+				frontier.update(v.n as node, u as parent, u.distance + v.d as distance)
+			else:
+				frontier.insert(v.n)
+			frontier.sort()

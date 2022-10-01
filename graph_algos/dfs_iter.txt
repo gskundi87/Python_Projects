@@ -1,0 +1,17 @@
+Adj = graphAdjList(G)
+start = startNode
+
+s = new stack()
+s.push(start)
+
+parent = {start : None}
+visited = {}
+
+while len(stack) is not 0:
+	u = stack.pop()
+	if u is not in visited:
+		visited[u] = True
+		for v in Adj[u]:
+			parent[v] = u
+			stack.append(v)
+		
