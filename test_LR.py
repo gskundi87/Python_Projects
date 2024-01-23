@@ -8,7 +8,9 @@ Created on Thu Jan  7 09:40:19 2021
 import pandas as pd
 import statsmodels.api as sm
 
-df = pd.read_csv('c:\\Users\\p4ul\\Documents\\R_Projects\\HighwaySign.txt',sep='\t',header=None,names=["Age","Distance"])
+df = pd.read_csv('c:\\Users\\p4u1\\Documents\\R_Projects\\HighwaySign.txt',sep='\t',header=None,names=["Age","Distance"])
+
+print(df)
 
 x = df["Age"]
 x = sm.add_constant(x)
