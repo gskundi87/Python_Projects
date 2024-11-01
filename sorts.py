@@ -258,7 +258,7 @@ def find_median(B,p,r):
     if lenB == 4 or lenB == 5:
         bubble_sort_ip(B,p,r)
         return B[p+2]
-    g = (len(B)//5) + 1
+    g = ((len(B)//5) if (len(B) % 5 == 0) else ((len(B)//5) + 1))
     temp = [0] * g
     for x in range(g-1):
         pC = 5*x
@@ -266,6 +266,40 @@ def find_median(B,p,r):
         temp[x] = find_median(B,pC,rC)
     temp[g-1] = find_median(B,5*(g-1),len(B)-1)
     return find_median(temp,0,len(temp)-1)
+
+def find_median_iter(B,p,r):
+    lenB = r - p + 1
+    if lenB <= 5:
+        return get_median_small_list(B,p,r)
+    else:
+        g = ((lenB//5) if (lenB % 5 == 0) else ((lenB//5) + 1))
+        temp = []
+        for x in range(g-1):
+            i = p+(5*x)
+            temp.append(get_median_small_list(B,i,i+4))
+        temp.append(get_median_small_list(B,p+(5*(g-1)),r))
+        B1 = temp 
+
+        lenB1 = len(B1)
+        while(lenB1 > 5):
+            g = ((lenB1//5) if (lenB1 % 5 == 0) else ((lenB1//5) + 1))
+            temp = []
+            for x in range(g-1):
+                i = 5*x
+                temp.append(get_median_small_list(B1,i,i+4))
+            temp.append(get_median_small_list(B1,(5*(g-1)),lenB1-1))
+            B1 = temp
+            lenB1 = len(B1)
+        
+        return get_median_small_list(B1,0,lenB1-1)
+
+def get_median_small_list(B,p,r):
+    lenB = r - p + 1
+    if lenB == 1 or lenB == 2:
+        return B[p]
+    bubble_sort_ip(B,p,r)
+    return B[p+1]
+    
     
 def linear_search(A,p,r,x):
     for i in range(p,r+1):
@@ -274,7 +308,7 @@ def linear_search(A,p,r,x):
     return -1
 
 def det_partition(A,p,r):
-    y = find_median(A,p,r)
+    y = find_median_iter(A,p,r)
     x = linear_search(A,p,r,y)
     A[x],A[r] = A[r],A[x]
     return partition(A,p,r)
@@ -304,13 +338,12 @@ def testSorts(n, tries):
     sum1 = 0.0
     sum2 = 0.0
     sum3 = 0.0
-    r = 10*n
     
     x = []
     
     for i in range(tries):
         for j in range(n):
-            x.append(random.randint(0,r)) 
+            x.append(random.randint(0,10*n)) 
         y = x[:]
         start = perf_counter()
         got1 = quicksort(x,0,len(x)-1)
@@ -328,7 +361,7 @@ def testSorts(n, tries):
     return sum1, sum2, sum3, got1, got2, got3
 
 def driveSortTest(tries):
-    for i in range(15):
+    for i in range(21,22):
         n = 2**i
         time1, time2, time3, got1, got2, got3 = testSorts(n, tries)
         print (f"%8d, %7.3f, %7.3f %7.3f" % (n,time1/tries,time2/tries,time3/tries))
@@ -338,11 +371,15 @@ def driveSortTest(tries):
 if __name__ == "__main__":
     A = []
     
-    for i in range(24):
+    for i in range(32):
         A.append(random.randint(0,100))
 
     B = A.copy()
     C = A.copy()
+    
+    print(f"A median:  %d", find_median_iter(A,0,len(A)-1))
+    print(f"B median:  %d", find_median_iter(B,0,len(B)-1))
+    print(f"C median:  %d", find_median_iter(C,0,len(C)-1))
     
     print(A)
     print(B)
@@ -356,7 +393,7 @@ if __name__ == "__main__":
     print(B)
     print(C)
 
-    # driveSortTest(10)
+    driveSortTest(1)
 
 # Test accuracy of count_inv vs simpler inversion counting methods
 # Currently not accurate as of 9/19/21 -> TODO
