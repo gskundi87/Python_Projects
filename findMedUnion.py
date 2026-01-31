@@ -53,3 +53,5 @@ def findMedian(A,al,ah,B,bl,bh):
             return findMedian(A,pivotA,ah,B,bl,pivotB)  
 
 C = findMedian(A,0,len(A)-1,B,0,len(B)-1)
+print(f"Brute Force: {E}")
+print(f"DC: {C}")

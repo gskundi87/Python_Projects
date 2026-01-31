@@ -56,7 +56,7 @@ class BST_NODE():
             else:
                 return self.right.find(k)
             
-    def find_man(self):
+    def find_max(self):
         current = self
         while current.right != None:
             current = current.right
